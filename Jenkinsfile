@@ -5,7 +5,7 @@ pipeline {
             steps {
                 echo 'hello world'
                 echo 'Triggered webhook'
-                echo "added one more line"
+                echo "added one  line"
             }
         }
     }
