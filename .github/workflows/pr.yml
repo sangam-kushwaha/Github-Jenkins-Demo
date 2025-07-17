@@ -1,0 +1,88 @@
+name: CloudFormation Linting
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main    # or 'master' depending on your default branch name
+    paths:
+      - 'glue-jobs/**'
+
+jobs:
+  cfn-lint:
+    name: CFN Lint Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # - name: Set up Python
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: '3.x'
+
+      - name: Install cfn-lint
+        run: |
+          # python -m pip install --upgrade pip
+          pip install cfn-lint
+      - name: Run cfn-lint
+        run: |
+          find glue-jobs -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \) -not -path "./.github/*" -print0 | xargs -0 -n1 cfn-lint
+        continue-on-error: false
+
+        
+
+      # - name: Run CloudFormation Linting
+      #   run: |
+      #     echo "Checking CloudFormation templates in PR from ${{ github.head_ref }} to main branch"
+      #     files=$(find . -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \) -not -path "./.github/*")
+      #     echo "Files to be scanned:"
+      #     echo "$files"
+      #     echo "-------------------"
+      #     cfn-lint $files
+      #   continue-on-error: false
+
+  cfn-nag:
+    name: CFN Nag Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # - name: Set up Ruby
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: '3.0'
+
+      # - name: Install cfn_nag
+      #   run: |
+      #     gem install cfn-nag
+
+      - name: Run CFN-Nag
+        uses: stelligent/cfn_nag@master
+        with:
+          input_path: .
+          extra_args: --fail-on-warnings
+
+      - name: Verify cfn_nag scan results
+        run: |
+          FAILURES=$(grep Failures cfn_nag.out | awk '{ SUM += $3} END { print SUM }')
+          WARNINGS=$(grep Warnings cfn_nag.out | awk '{ SUM += $3} END { print SUM }')
+          TOTAL=$((FAILURES + WARNINGS))
+          echo "Found $FAILURES failures and $WARNINGS warnings in CloudFormation templates"
+          echo "Total issues: $TOTAL"
+          exit $TOTAL
+          
+
+      # - name: Run CFN Nag Scan
+      #   run: |
+      #     echo "Running CFN Nag scan on templates from ${{ github.head_ref }} to main branch"
+      #     files=$(find . -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json" \) -not -path "./.github/*")
+      #     echo "Files to be scanned:"
+      #     echo "$files"
+      #     cfn_nag_scan --input-path $files
+      #   continue-on-error: false
+
+
