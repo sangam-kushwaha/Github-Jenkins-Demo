@@ -25,6 +25,9 @@ Parameters:
       - t3.micro
       - t3.small
       - t3.medium
+  minimum:
+    Type: Number
+    Default: 3
 
       
 
@@ -75,7 +78,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-public-routes
+          Value: !Sub development-public-routes
         - Key: Environment
           Value: !Ref EnvironmentName
 
