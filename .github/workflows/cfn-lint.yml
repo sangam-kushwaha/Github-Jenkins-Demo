@@ -59,8 +59,8 @@ jobs:
         id: bandit
         run: |
           echo "--------------------Starting python code scanning------------------------------"
-          # bandit -c bandit.yaml -r . -f txt -o bandit-results.txt
-          bandit -r . -f txt -o bandit-results.txt
+          bandit -c bandit.yaml -r . -f txt -o bandit-results.txt
+          # bandit -r . -f txt -o bandit-results.txt
           EXIT_CODE=$?
           echo "=========================="
           if [ $EXIT_CODE -eq 1 ]; then
