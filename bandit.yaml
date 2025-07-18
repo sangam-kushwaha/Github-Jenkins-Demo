@@ -1,0 +1,8 @@
+# Bandit configuration file
+
+# Skip specific tests
+skips: [B404,B605]
+
+# Optional: You can also configure other settings
+# exclude_dirs: [tests, venv, .git]
+# include_dirs: [src, app]
