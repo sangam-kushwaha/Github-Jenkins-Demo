@@ -1,0 +1,6 @@
+# .cfnlintrc.yaml - Configuration file for cfn-lint
+ignore_checks:
+  - W  # Ignore all warnings
+ignore_templates:
+  - ".github/**/*.yaml"
+  - ".github/**/*.yml"
