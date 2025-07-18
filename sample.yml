@@ -151,6 +151,6 @@ Outputs:
 
   WebServerSecurityGroupId:
     Description: Security Group ID for the web server
-    # Value: !Ref WebServerSecurityGroup
+    Value: !Ref WebServerSecurityGroup
     Export:
       Name: !Sub ${AWS::StackName}-WebServerSecurityGroupId
