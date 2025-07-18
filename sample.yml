@@ -111,7 +111,7 @@ Resources:
           CidrIp: [IP_ADDRESS]
       Tags:
         - Key: Name
-          Value: !Sub ${EnvironmentName}-web-sg
+          Value: !Sub devlopment-web-sg
         - Key: Environment
           Value: !Ref EnvironmentName
 
