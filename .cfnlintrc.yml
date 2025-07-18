@@ -1,5 +1,5 @@
 ignore_checks:
-  - W # Ignore all warnings (codes starting with W)
+  # - W # Ignore all warnings (codes starting with W)
   - I
 templates:
   - "**/*.yaml"
