@@ -41,5 +41,5 @@ jobs:
       - name: Run CFN-Nag
         uses: stelligent/cfn_nag@master
         with:
-          input_path: ./cloudFormation
+          input_path: .
           extra_args: --fail-on-warnings
