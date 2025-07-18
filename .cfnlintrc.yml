@@ -1,0 +1,8 @@
+ignore_checks:
+  - W # Ignore all warnings (codes starting with W)
+  - I
+templates:
+  - "**/*.yaml"
+  - "**/*.yml"
+exclude_patterns:
+  - ".github/**/*"
