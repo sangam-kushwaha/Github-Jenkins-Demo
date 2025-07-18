@@ -144,7 +144,7 @@ Outputs:
 
   WebServerPublicIP:
     Description: Public IP of the web server
-    Value: !GetAtt WebServerInstance.PublicIp
+    # Value: !GetAtt WebServerInstance.PublicIp
     Export:
       Name: !Sub ${AWS::StackName}-WebServerPublicIP
 
