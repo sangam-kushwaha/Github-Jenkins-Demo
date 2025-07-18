@@ -4,3 +4,4 @@ ignore_checks:
 ignore_templates:
   - ".github/**/*.yaml"
   - ".github/**/*.yml"
+  - ".cfnlintrc.yaml"
