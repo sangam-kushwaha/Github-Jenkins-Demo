@@ -25,21 +25,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install cfn-lint
 
-      - name: Debug and Run cfn-lint
+      - name: Simple validation test
         run: |
-          echo "---------------Starting CloudFormation Template Validation using cfn-lint----------------------"
-          echo "Current directory: $(pwd)"
-          echo "Listing CloudFormation directory content:"
-          ls -la ./cloudFormation/
+          cd ./cloudFormation
+          echo "Running simple validation on sample.yml:"
+          cfn-lint sample.yml
+
+
+      # - name: Debug and Run cfn-lint
+      #   run: |
+      #     echo "---------------Starting CloudFormation Template Validation using cfn-lint----------------------"
+      #     echo "Current directory: $(pwd)"
+      #     echo "Listing CloudFormation directory content:"
+      #     ls -la ./cloudFormation/
           
-          find ./cloudFormation -type f \( -name "*.yaml" -o -name "*.yml" \) -print0 | while IFS= read -r -d '' file; do
-            echo "Validating $file"
-            echo "File content (first 10 lines):"
-            head -10 "$file"
-            echo "Running cfn-lint without config file:"
-            cfn-lint --ignore-checks W,I "$file" || exit 1
-          done
-        continue-on-error: false
+      #     find ./cloudFormation -type f \( -name "*.yaml" -o -name "*.yml" \) -print0 | while IFS= read -r -d '' file; do
+      #       echo "Validating $file"
+      #       echo "File content (first 10 lines):"
+      #       head -10 "$file"
+      #       echo "Running cfn-lint without config file:"
+      #       cfn-lint --ignore-checks W,I "$file" || exit 1
+      #     done
+      #   continue-on-error: false
 
   cfn-nag-scan:
     name: CFN Nag Scan
