@@ -28,17 +28,18 @@ jobs:
       - name: Run cfn-lint
         run: |
           echo "---------------Starting CloudFormation Template Validation using cfn-lint----------------------"
-          find cloudFormation -type f \( -name "*.yaml" -o -name "*.yml" \) -not -path "./.github/*" -print0 | xargs -0 -n1 cfn-lint
+          find . -type f \( -name "*.yaml" -o -name "*.yml" \) -not -path "./.github/*" -print0 | xargs -0 -n1 cfn-lint
         continue-on-error: false
 
-      - name: Comment on PR if linting fails
-        if: failure()
-        uses: actions/github-script@v6
+  cfn-nag-scan:
+    name: CFN Nag Scan
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run CFN-Nag
+        uses: stelligent/cfn_nag@master
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '❌ CloudFormation linting failed. Please check the workflow logs for details.'
-            })
+          input_path: ./cloudFormation
+          extra_args: --fail-on-warnings
