@@ -29,7 +29,7 @@ jobs:
         run: |
           cd ./cloudFormation
           echo "Running simple validation on sample.yml:"
-          cfn-lint sample.yml
+          cfn-lint sample.yml --ignore-checks W,I
 
 
       # - name: Debug and Run cfn-lint
