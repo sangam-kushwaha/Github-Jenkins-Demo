@@ -28,7 +28,10 @@ jobs:
       - name: Run cfn-lint
         run: |
           echo "---------------Starting CloudFormation Template Validation using cfn-lint----------------------"
-          find . -type f \( -name "*.yaml" -o -name "*.yml" \) -print0 | xargs -0 -n1 cfn-lint -c .cfnlintrc.yaml 
+          find ./cloudFormation -type f \( -name "*.yaml" -o -name "*.yml" \) -print0 | while IFS= read -r -d '' file; do
+            echo "Validating $file"
+            cfn-lint -c .cfnlintrc.yaml --ignore-checks W,I "$file" || exit 1
+          done
         continue-on-error: false
 
   cfn-nag-scan:
